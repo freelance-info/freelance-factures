@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { Input, Table } from 'semantic-ui-react';
+import React, { useState } from 'react';
 import Invoice from './Invoice';
 
 // Facture
 export default function Invoices({parameters}) {
 
     const [selectedInvoice, setSelectedInvoice] = useState(null);
-    const [cols, setCols] = useState([
+    const [cols] = useState([
             { code: 'editionDate', label: "Date de l'émission de la facture" },
             { code: 'ref', label: "Numérotation de la facture" },
             { code: 'client', label: "Identité de l'acheteur" },
@@ -14,7 +13,7 @@ export default function Invoices({parameters}) {
             { code: 'ttc', label: "Somme totale à payer TTC" },
     ]);
 
-    const [lines, setLines] = useState([
+    const [lines] = useState([
             { editionDate: '2012-01-10', fulfillmentDate: '2012-01-10', client: 'CGI', ref: '123', nature: 'Presta 10j', ht: 3000, ttc: 3300, tva: 300 },
             { editionDate: '2012-01-10', fulfillmentDate: '2012-01-10', client: 'CGI', ref: '123', nature: 'Presta 10j', ht: 3000, ttc: 3300, tva: 300 },
             { editionDate: '2012-01-10', fulfillmentDate: '2012-01-10', client: 'CGI', ref: '123', nature: 'Presta 10j', ht: 3000, ttc: 3300, tva: 300 },

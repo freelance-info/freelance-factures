@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import logo from './logo.svg';
 import Invoices from './components/Invoices';
 import Parameters from './components/Parameters';
 

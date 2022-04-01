@@ -1,26 +1,40 @@
 {
-  "name": "compta-micro-entreprise",
+  "name": "facture-micro-entreprise",
   "version": "0.1.0",
+  "description": "Simplified invoicing software for freelancers",
+  "homepage": "./",
   "private": true,
+  "author": {
+    "name": "Benjamin CAURE",
+    "email": "benjamin.caure@gmail.com"
+  },
   "dependencies": {
-    "@craco/craco": "^5.6.2",
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.3.2",
-    "@testing-library/user-event": "^7.1.2",
-    "csv-parser": "^2.3.2",
-    "csv-writer": "^1.5.0",
+    "@craco/craco": "^6.4.3",
+    "@testing-library/jest-dom": "^5.16.1",
+    "@testing-library/react": "^12.1.2",
+    "@testing-library/user-event": "^13.5.0",
+    "env-cmd": "^10.0.1",
     "fs": "0.0.1-security",
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0",
-    "react-scripts": "3.3.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-scripts": "^4.0.0",
     "semantic-ui-css": "^2.4.1",
-    "semantic-ui-react": "^0.88.2"
+    "semantic-ui-react": "^2.1.0",
+    "typescript": "^4.5.5"
   },
   "scripts": {
-    "start": "craco start",
-    "build": "craco build",
-    "test": "craco test",
-    "electron": "electron ."
+    "start": "concurrently --kill-others \"env-cmd -r .env.electron -e development craco start\" \"wait-on tcp:3000 && env-cmd -r .env.electron -e development electron src/main.js\"",
+    "start:web": "env-cmd -f .env.web craco start",
+    "start:electron-react": "craco start",
+    "start:electron-dev": "wait-on tcp:3000 && env-cmd -r .env.electron -e development electron src/main.js",
+    "build:web": "craco build",
+    "build:electron": "env-cmd -r .env.electron -e production craco build",
+    "eject": "react-scripts eject",
+    "pack": "electron-builder --dir",
+    "dist:win": "electron-builder --win",
+    "dist:linux": "electron-builder --linux",
+    "dist:mac": "electron-builder --mac",
+    "test": "craco test"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -38,7 +52,41 @@
     ]
   },
   "devDependencies": {
-    "electron": "^11.5.0"
+    "concurrently": "^5.1.0",
+    "electron": "^11.5.0",
+    "electron-builder": "^22.3.2",
+    "eslint": "7.11.0",
+    "eslint-config-airbnb": "^18.2.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-react": "^7.21.4",
+    "eslint-plugin-react-hooks": "^4.1.2",
+    "wait-on": "^4.0.0"
   },
-  "main": "src/main.js"
+  "main": "electron.js",
+  "build": {
+    "files": [
+      "public/**"
+    ],
+    "asarUnpack": [
+      "public/**"
+    ],
+    "directories": {
+      "buildResources": "public"
+    },
+    "artifactName": "${productName}.${ext}",
+    "win": {
+      "publisherName": "github.com/freelance-info",
+      "target": "portable"
+    },
+    "linux": {
+      "target": "AppImage",
+      "category": "Office",
+      "icon": "icon.png"
+    },
+    "mac": {
+      "target": "zip",
+      "category": "Finance"
+    }
+  }
 }

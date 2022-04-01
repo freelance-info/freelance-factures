@@ -1,9 +1,9 @@
-// Required to use 'fs' module without ejecting create-react-app config
-// https://github.com/facebook/create-react-app/issues/6782 
-module.exports = {
-    webpack: {
-        configure: {
-            target: 'electron-renderer'
-        }
-    }
-};
+let target = 'web';
+if (process.env.REACT_APP_MODE === 'electron') {
+  target = 'electron-renderer';
+}
+// eslint-disable-next-line no-console
+console.log(`craco.config.js: setting webpack target to: ${target}`);
+
+module.exports = { webpack: { configure: { target } } };
+
